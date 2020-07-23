@@ -1,0 +1,10 @@
+.idea
+.env
+node_modules
+docs
+build
+logs
+.vim
+data
+uploads
+.eslintcache
