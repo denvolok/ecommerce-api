@@ -12,7 +12,7 @@ CrudConfigService.load(crudGlobalConfig);
   imports: [
     TypeOrmModule.forRoot({
       ...dbConfig,
-      entities: [__dirname + "/modules/**/*/*.model{.js,.ts}"],
+      entities: [__dirname + "/modules/**/*/*.entity{.js,.ts}"],
     }),
     UsersModule,
     AuthModule,

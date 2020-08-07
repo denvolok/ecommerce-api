@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { UserRole } from "../users/user.model";
+import { UserRole } from "../users/user.entity";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 
 @Injectable()

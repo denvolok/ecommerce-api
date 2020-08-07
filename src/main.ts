@@ -6,12 +6,15 @@ import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./utils/global-exception.filter";
+import { SwaggerConfig } from "./config/swaggerConfig";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());
+
+  SwaggerConfig.init(app);
 
   await app.listen(3000);
 }
