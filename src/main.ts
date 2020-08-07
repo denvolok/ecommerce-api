@@ -7,9 +7,10 @@ import { ValidationPipe } from "@nestjs/common";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./utils/global-exception.filter";
 import { SwaggerConfig } from "./config/swaggerConfig";
+import { AppLogger } from "./modules/utils/logger/app-logger";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: new AppLogger() });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());
