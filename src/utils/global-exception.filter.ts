@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from "@nestjs/common";
 import { Response } from "express";
-import { QueryFailedError } from "typeorm/index";
+import { AppLogger } from "../modules/utils/logger/app-logger";
 
 interface ErrorResponseData {
   statusCode: number;
@@ -9,6 +9,10 @@ interface ErrorResponseData {
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
+  constructor(private logger: AppLogger) {
+    this.logger.setContext("ERROR");
+  }
+
   catch(exception: any, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
@@ -25,11 +29,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       data.statusCode = statusCode;
       data.message = Array.isArray(message) ? message[0] : message;
     } else {
-      if (exception instanceof QueryFailedError) {
-        data.statusCode = 500;
-        data.message = exception.message;
-      }
+      data.message = exception.message || "Internal Server Error";
     }
+
+    this.logger.error(exception.stack);
 
     res.status(data.statusCode).json(data);
   }
